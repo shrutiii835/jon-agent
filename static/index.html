@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Your private, evidence-led job search workspace.">
+  <title>Jon — Your next chapter</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Jon home"><span class="brand-icon">j</span> jon<span class="brand-dot">.</span></a>
+    <div class="workspace-label">PERSONAL WORKSPACE</div>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-page="discover"><span>◈</span> Opportunities <span class="nav-count" id="job-count">0</span></button>
+      <button class="nav-item" data-page="profile"><span>◎</span> Your preferences</button>
+      <button class="nav-item" data-page="evidence"><span>▤</span> Evidence & resumes</button>
+      <button class="nav-item" data-page="applications"><span>↗</span> Applications <span class="nav-count" id="app-count">0</span></button>
+      <button class="nav-item" data-page="sources"><span>⌘</span> Connected sources</button>
+    </nav>
+    <div class="sidebar-note"><span class="live-dot"></span> PRIVATE BY DESIGN<p>Your workspace lives on this device. You control what gets sent.</p></div>
+    <div class="user"><span class="avatar" id="avatar">Y</span><div><strong id="user-name">Your workspace</strong><small>Personal account · Local</small></div></div>
+  </aside>
+  <main>
+    <header class="topbar"><span id="breadcrumb">WORKSPACE <b>/</b> OPPORTUNITIES</span><div class="top-status"><span class="live-dot"></span> Local workspace <button class="text-button" id="refresh" title="Reload workspace">↻ Refresh</button></div></header>
+    <div id="notice" role="status" aria-live="polite" hidden></div>
+    <section id="page-discover" class="page">
+      <div class="page-heading"><div><div class="eyebrow">LESS SEARCHING. MORE POSSIBILITY.</div><h1>Your next chapter starts here.</h1><p>Find the right roles. Tell your story. Keep moving forward.</p></div><button class="primary" id="discover-button">✦ Discover jobs</button></div>
+      <div class="stats" id="stats"></div>
+      <div class="setup-banner" id="setup-banner"><span class="banner-mark">↗</span><div><strong>Make this search yours.</strong><p>Set your preferences, add your experience, and connect company job boards.</p></div><button class="secondary" data-page="profile">Set up your profile →</button></div>
+      <div class="section-bar"><div class="tabs"><button class="tab active" id="eligible-tab">For you <span id="eligible-count">0</span></button><button class="tab" id="all-tab">All discovered</button></div><button class="text-button" id="import-job">+ Import a job</button></div>
+      <div class="filter-row"><label class="search-box"><span>⌕</span><input id="search" placeholder="Search role, company or skill…" aria-label="Search jobs"></label><select id="provider-filter" aria-label="Filter by source"><option value="">All sources</option><option value="greenhouse">Greenhouse</option><option value="lever">Lever</option><option value="ashby">Ashby</option><option value="manual">Imported</option></select><span class="subtle" id="result-count"></span></div>
+      <div id="job-list" class="job-grid"></div>
+      <p class="footnote">Match scores describe preference and skill overlap, not ATS scores or interview probabilities. Always verify current eligibility on the original listing.</p>
+    </section>
+    <section id="page-profile" class="page" hidden>
+      <div class="page-heading"><div><div class="eyebrow">01 / YOUR DIRECTION</div><h1>A search that fits your life.</h1><p>Tell Jon what matters. These preferences shape your shortlist.</p></div></div>
+      <form id="profile-form" class="panel form-grid">
+        <div class="form-section full"><h2>The essentials</h2><p>Contact details appear in generated resumes. They are sent only when you submit an application.</p></div>
+        <label>Full name<input name="name" maxlength="120" autocomplete="name" required placeholder="Your name"></label>
+        <label>Email<input name="email" type="email" maxlength="200" autocomplete="email" required placeholder="you@example.com"></label>
+        <label>Phone <span class="optional">optional</span><input name="phone" maxlength="50" autocomplete="tel"></label>
+        <label>Your location<input name="location" maxlength="150" placeholder="Bengaluru, India"></label>
+        <div class="form-section full"><h2>Your next role</h2><p>Separate multiple values with commas. Leave a field empty to keep the search open.</p></div>
+        <label>Target roles<input name="roles" placeholder="Software Engineer, Backend Engineer"></label>
+        <label>Target locations<input name="locations" placeholder="Bengaluru, India"><small>Remote listings still need to match your location if specified.</small></label>
+        <label>Target companies<input name="companies" placeholder="Optional company allowlist"></label>
+        <label>Employment types<input name="job_types" placeholder="Full-time, Internship, Contract"></label>
+        <label class="full">Skills you can demonstrate<input name="skills" placeholder="Python, SQL, React, Docker"><small>Only add skills you actually have. These are included in your resume.</small></label>
+        <label>Minimum annual salary<input name="salary_min" type="number" min="0" max="100000000" placeholder="0"></label>
+        <label>Currency<select name="currency"><option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>CAD</option><option>AUD</option></select></label>
+        <label class="check"><input type="checkbox" name="remote_only"> Only roles explicitly marked remote</label>
+        <label class="check"><input type="checkbox" name="allow_unknown_salary" checked> Include jobs with undisclosed salary</label>
+        <div class="full form-actions"><span class="subtle">Saved locally. Existing application snapshots stay unchanged.</span><button class="primary" type="submit">Save preferences →</button></div>
+      </form>
+    </section>
+    <section id="page-evidence" class="page" hidden>
+      <div class="page-heading"><div><div class="eyebrow">02 / YOUR STORY, GROUNDED IN FACTS</div><h1>Good work deserves good evidence.</h1><p>Build a library of experience, projects and achievements to tailor from.</p></div><button class="primary" id="add-evidence">+ Add evidence</button></div>
+      <div class="two-col"><div class="panel"><span class="card-icon">▤</span><h2>Bring your resume</h2><p>Extract text from PDF, DOCX, TXT or Markdown. Review it and save individual experience or project entries.</p><label class="upload-label secondary">Choose resume<input id="resume-upload" type="file" accept=".pdf,.docx,.txt,.md"></label><small>Up to 5 MB · Text-based PDFs · No uploads retained</small></div><form class="panel" id="github-form"><span class="card-icon">⌘</span><h2>Connect your public work</h2><p>Import public repository descriptions from GitHub. Review your contribution before using them.</p><div class="inline"><input name="username" required placeholder="GitHub username" aria-label="GitHub username"><button class="secondary" type="submit">Import repos →</button></div><small>Read-only · Public metadata · Up to 30 recent repositories</small></form></div>
+      <div class="section-title"><h2>Your evidence library</h2><span class="subtle">Only verified entries are used in drafts</span></div>
+      <div id="evidence-list" class="evidence-list"></div>
+    </section>
+    <section id="page-applications" class="page" hidden>
+      <div class="page-heading"><div><div class="eyebrow">03 / EVERY STEP, IN ONE PLACE</div><h1>Keep your momentum.</h1><p>Review tailored resumes, complete applications, and track what happens next.</p></div><button class="secondary" id="export-csv">↓ Export spreadsheet</button></div>
+      <div class="panel tracker"><div class="section-title"><h2>Application tracker</h2><span id="tracker-count" class="subtle"></span></div><div class="table-scroll"><table><thead><tr><th>ROLE & COMPANY</th><th>STATUS</th><th>LAST UPDATED</th><th></th></tr></thead><tbody id="application-list"></tbody></table></div><div id="application-empty"></div></div>
+      <div class="section-title"><h2>Activity log</h2><span class="subtle">Approval, submission and outcome history</span></div><div id="events" class="panel event-list"></div>
+    </section>
+    <section id="page-sources" class="page" hidden>
+      <div class="page-heading"><div><div class="eyebrow">04 / FOLLOW THE OPPORTUNITY</div><h1>Go straight to the source.</h1><p>Connect public company boards. Import listings from other platforms.</p></div></div>
+      <form class="panel form-grid" id="source-form"><div class="form-section full"><h2>Add a company board</h2><p>Use the board slug from its careers URL, for example <code>boards.greenhouse.io/company-slug</code>.</p></div><label>Company name<input name="company" required placeholder="Company name" maxlength="150"></label><label>Provider<select name="provider"><option value="greenhouse">Greenhouse</option><option value="lever">Lever</option><option value="ashby">Ashby</option></select></label><label>Board slug<input name="board" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,99}" placeholder="company-slug"></label><div class="align-bottom"><button class="primary" type="submit">Connect board →</button></div></form>
+      <div id="source-list" class="source-list"></div>
+      <div class="panel information"><h2>Clear about what’s connected.</h2><p>Greenhouse, Lever and Ashby supply public listings for the company boards you add. LinkedIn, Naukri, Indeed, Wellfound and Internshala are supported through manual listing import and browser handoff. This version does not scrape those platforms or automate their logged-in sessions.</p><p>Direct submission supports a limited set of Greenhouse forms and requires employer-authorized API credentials. Complex questions, consent fields and unsupported sources go to the employer’s application page.</p></div>
+      <div class="panel model-card"><div><div class="eyebrow">MODEL CONNECTION</div><h2 id="model-label">Evidence-only mode</h2><p id="model-description"></p></div><span class="badge" id="model-status">Not configured</span></div>
+    </section>
+    <footer><span class="footer-brand">jon.</span> A little structure for your next big move.<span class="footer-right">Built around your evidence. Always your decision.</span></footer>
+  </main>
+  <dialog id="dialog"><div class="dialog-top"><h2 id="dialog-title"></h2><button id="close-dialog" class="icon-button" aria-label="Close dialog">×</button></div><div id="dialog-body"></div></dialog>
+</body>
+</html>
